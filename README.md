@@ -11,6 +11,8 @@ To note, this project is using [Angular Zoneless](https://angular.dev/guide/zone
 
 For package manager, this project are using Bun. Installation guide can be found on [Bun official websites](https://bun.sh/package-manager).
 
+If you want to know about style guide used, please refer to the [Angular style guides](https://angular.dev/style-guide) page.
+
 ## Development server
 
 To start a local development server, you can run the command below.
@@ -36,7 +38,3 @@ bun build
 ```
 
 This will compile your project and store the build artifacts in the `dist/` directory. For more information about deployment, you can check them on Angular's [documentation](https://angular.dev/tools/cli/deployment).
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
