@@ -9,12 +9,18 @@ To install them on your local machine, you can refer to Angular guide [here](htt
 
 To note, this project is using [Angular Zoneless](https://angular.dev/guide/zoneless), which not yet production ready as of version 20.1.1.
 
+For package manager, this project are using Bun. Installation guide can be found on [Bun official websites](https://bun.sh/package-manager).
+
 ## Development server
 
 To start a local development server, you can run the command below.
 
 ```bash
+# Using Angular CLI
 ng serve
+
+# Using Bun
+bun start
 ```
 
 ## Building
@@ -22,7 +28,11 @@ ng serve
 To build the project, use the command below.
 
 ```bash
+# Using Angular CLI
 ng build
+
+# Using Bun
+bun build
 ```
 
 This will compile your project and store the build artifacts in the `dist/` directory. For more information about deployment, you can check them on Angular's [documentation](https://angular.dev/tools/cli/deployment).
