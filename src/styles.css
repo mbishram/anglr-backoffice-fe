@@ -1,4 +1,5 @@
 @import "tailwindcss";
+
 @plugin "tailwindcss-primeui";
 
 @theme {
@@ -16,5 +17,13 @@
 
   .form-group {
     @apply grid gap-2;
+  }
+
+  .link {
+    @apply text-primary hover:underline hover:opacity-70 cursor-pointer;
+  }
+
+  .spoiler {
+    @apply blur-xs hover:blur-none;
   }
 }

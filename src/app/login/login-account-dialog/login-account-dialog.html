@@ -1,0 +1,41 @@
+<p-dialog
+  header="Account"
+  modal
+  dismissableMask
+  [(visible)]="visible"
+  styleClass="max-w-2xs"
+>
+  <p class="mb-4">Here's some account that you can try:</p>
+  <ul class="grid gap-2">
+    <li>
+      <p>
+        <strong aria-label="Username">admin</strong>/<span
+          class="spoiler"
+          aria-label="Password"
+          >admin</span
+        >
+      </p>
+    </li>
+    <li>
+      <p>
+        <strong aria-label="Username">lorem</strong>/<span
+          class="spoiler"
+          aria-label="Password"
+          >ipsum</span
+        >
+      </p>
+    </li>
+    <li>
+      <p>
+        <strong aria-label="Username">thisisaccount</strong>/<span
+          class="spoiler"
+          aria-label="Password"
+          >123password</span
+        >
+      </p>
+    </li>
+  </ul>
+  <div class="flex justify-end gap-2 mt-6">
+    <p-button label="Thanks!" (click)="visible.set(false)" />
+  </div>
+</p-dialog>

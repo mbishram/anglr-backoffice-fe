@@ -8,7 +8,7 @@ import { matchesValidator } from 'app/matches.directive';
 import { ValidatorMessageImpurePipe } from 'app/validator-message.pipe';
 import { MessageService } from 'primeng/api';
 import { Password } from 'primeng/password';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'agl-register',
@@ -20,6 +20,7 @@ import { Router } from '@angular/router';
     Password,
     ReactiveFormsModule,
     ValidatorMessageImpurePipe,
+    RouterLink,
   ],
   templateUrl: './register.html',
   styleUrl: './register.css',

@@ -83,6 +83,11 @@
         }}</p-message>
       }
     </div>
+
+    <p>
+      Already have an account?
+      <a [routerLink]="['/auth', 'login']" class="link">Login here</a>!
+    </p>
   </div>
 
   <p-button type="submit" fluid label="Submit" />

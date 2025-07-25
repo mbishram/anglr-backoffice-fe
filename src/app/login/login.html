@@ -1,6 +1,58 @@
-<p>
-  login works! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab
-  accusamus alias consectetur, consequuntur ducimus, et in iusto laudantium
-  nulla odit pariatur perferendis placeat porro praesentium quam rem
-  reprehenderit totam vero?
-</p>
+<h1 class="header mb-6 align-middle">
+  Login with your
+  <button class="link" (click)="isListOpen.set(true)">account</button>!
+</h1>
+
+<form [formGroup]="form" (ngSubmit)="submitForm()">
+  <div class="grid gap-4 mb-6">
+    @let usernameErrorMessage =
+      form.get("username") | validatorMessageImpure: "Username";
+    <div class="form-group">
+      <p-iftalabel>
+        <input
+          pInputText
+          id="username"
+          formControlName="username"
+          fluid
+          [invalid]="!!usernameErrorMessage"
+        />
+        <label for="username">Username</label>
+      </p-iftalabel>
+      @if (!!usernameErrorMessage) {
+        <p-message severity="error" variant="simple" size="small">{{
+          usernameErrorMessage
+        }}</p-message>
+      }
+    </div>
+
+    @let passwordErrorMessage =
+      form.get("password") | validatorMessageImpure: "Password";
+    <div class="form-group">
+      <p-iftalabel>
+        <p-password
+          inputId="password"
+          formControlName="password"
+          fluid
+          [invalid]="!!passwordErrorMessage"
+          feedback="false"
+          toggleMask="true"
+        />
+        <label for="password">Password</label>
+      </p-iftalabel>
+      @if (!!passwordErrorMessage) {
+        <p-message severity="error" variant="simple" size="small">{{
+          passwordErrorMessage
+        }}</p-message>
+      }
+    </div>
+
+    <p>
+      Want to try and create a new account?
+      <a [routerLink]="['/auth', 'register']" class="link">Click Here</a>!
+    </p>
+  </div>
+
+  <p-button type="submit" fluid label="Submit" />
+</form>
+
+<agl-login-account-dialog [(visible)]="isListOpen" />
