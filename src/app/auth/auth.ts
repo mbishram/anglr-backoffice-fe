@@ -38,7 +38,6 @@ export class Auth implements OnDestroy {
     this.routerEvent$ = this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe(() => {
-        console.log('_TST');
         this.setImageData();
       });
   }
