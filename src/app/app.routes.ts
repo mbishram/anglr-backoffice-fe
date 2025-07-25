@@ -17,6 +17,7 @@ export const appRoutes: Routes = [
 
   // Dashboard routes
   { path: '', component: Dashboard },
+  { path: 'test', component: Dashboard },
 
   // Redirects
   { path: '**', redirectTo: '/auth/login' },
