@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { Auth } from 'app/auth/auth';
+import { Dashboard } from 'app/dashboard/dashboard';
 import { authRoutes } from 'app/auth/auth.route';
 
 export const appRoutes: Routes = [
@@ -13,6 +14,9 @@ export const appRoutes: Routes = [
       ...authRoutes,
     ],
   },
+
+  // Dashboard routes
+  { path: '', component: Dashboard },
 
   // Redirects
   { path: '**', redirectTo: '/auth/login' },
