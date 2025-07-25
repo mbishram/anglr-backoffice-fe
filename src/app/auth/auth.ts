@@ -2,8 +2,8 @@ import { Component, inject, signal } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
 import { ActivatedRoute, RouterOutlet } from '@angular/router';
 import {
-  PLACEHOLDER_IMAGE,
-  PLACEHOLDER_IMAGE_ALT,
+  MISSING_IMAGE_SRC,
+  MISSING_IMAGE_ALT,
   PLACEHOLDER_IMAGE_BASE64,
 } from 'app/app.constants';
 
@@ -16,8 +16,8 @@ import {
 export class Auth {
   protected readonly PLACEHOLDER_IMAGE_BASE64 = PLACEHOLDER_IMAGE_BASE64;
 
-  protected imgSrc = signal<string>(PLACEHOLDER_IMAGE);
-  protected imgAlt = signal<string>(PLACEHOLDER_IMAGE_ALT);
+  protected imgSrc = signal<string>(MISSING_IMAGE_SRC);
+  protected imgAlt = signal<string>(MISSING_IMAGE_ALT);
 
   constructor() {
     const activatedRoute = inject(ActivatedRoute);
