@@ -9,4 +9,12 @@
   .container {
     @apply px-4 mx-auto;
   }
+
+  .header {
+    @apply text-3xl font-semibold;
+  }
+
+  .form-group {
+    @apply grid gap-2;
+  }
 }

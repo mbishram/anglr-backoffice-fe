@@ -6,6 +6,7 @@ import {
 import { provideRouter } from '@angular/router';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { providePrimeNG } from 'primeng/config';
+import { MessageService } from 'primeng/api';
 import { Theme } from 'theme';
 import { appRoutes } from 'app/app.routes';
 
@@ -23,5 +24,6 @@ export const appConfig: ApplicationConfig = {
         },
       },
     }),
+    MessageService,
   ],
 };

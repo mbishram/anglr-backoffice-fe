@@ -5,7 +5,7 @@ import {
   MISSING_IMAGE_SRC,
   MISSING_IMAGE_ALT,
   PLACEHOLDER_IMAGE_BASE64,
-} from 'app/app.constants';
+} from 'app/app.constant';
 
 @Component({
   selector: 'agl-auth',

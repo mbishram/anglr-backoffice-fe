@@ -1,6 +1,89 @@
-<p>
-  register works! Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-  Dolorem, pariatur quasi. Accusamus architecto asperiores corporis deleniti
-  deserunt est illum labore laboriosam, laudantium nemo quaerat quas quia,
-  quisquam sunt tempore vitae!
-</p>
+<h1 class="header mb-6">Register a new account!</h1>
+
+<form [formGroup]="form" (ngSubmit)="submitForm()">
+  <div class="grid gap-4 mb-6">
+    @let nameErrorMessage = form.get("name") | validatorMessageImpure: "Name";
+    <div class="form-group">
+      <p-iftalabel>
+        <input
+          pInputText
+          id="name"
+          formControlName="name"
+          fluid
+          [invalid]="!!nameErrorMessage"
+        />
+        <label for="name">Name</label>
+      </p-iftalabel>
+      @if (!!nameErrorMessage) {
+        <p-message severity="error" variant="simple" size="small">{{
+          nameErrorMessage
+        }}</p-message>
+      }
+    </div>
+
+    @let usernameErrorMessage =
+      form.get("username") | validatorMessageImpure: "Username";
+    <div class="form-group">
+      <p-iftalabel>
+        <input
+          pInputText
+          id="username"
+          formControlName="username"
+          fluid
+          [invalid]="!!usernameErrorMessage"
+        />
+        <label for="username">Username</label>
+      </p-iftalabel>
+      @if (!!usernameErrorMessage) {
+        <p-message severity="error" variant="simple" size="small">{{
+          usernameErrorMessage
+        }}</p-message>
+      }
+    </div>
+
+    @let passwordErrorMessage =
+      form.get("password") | validatorMessageImpure: "Password";
+    <div class="form-group">
+      <p-iftalabel>
+        <p-password
+          inputId="password"
+          formControlName="password"
+          fluid
+          [invalid]="!!passwordErrorMessage"
+          feedback="false"
+          toggleMask="true"
+        />
+        <label for="password">Password</label>
+      </p-iftalabel>
+      @if (!!passwordErrorMessage) {
+        <p-message severity="error" variant="simple" size="small">{{
+          passwordErrorMessage
+        }}</p-message>
+      }
+    </div>
+
+    @let passwordConfirmationErrorMessage =
+      form.get("passwordConfirmation")
+        | validatorMessageImpure: "Password confirmation";
+    <div class="form-group">
+      <p-iftalabel>
+        <p-password
+          inputId="passwordConfirmation"
+          formControlName="passwordConfirmation"
+          fluid
+          [invalid]="!!passwordConfirmationErrorMessage"
+          feedback="false"
+          toggleMask="true"
+        />
+        <label for="password">Password Confirmation</label>
+      </p-iftalabel>
+      @if (!!passwordConfirmationErrorMessage) {
+        <p-message severity="error" variant="simple" size="small">{{
+          passwordConfirmationErrorMessage
+        }}</p-message>
+      }
+    </div>
+  </div>
+
+  <p-button type="submit" fluid label="Submit" />
+</form>

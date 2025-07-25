@@ -5,8 +5,6 @@ import type { Data, Route, Routes } from '@angular/router';
  *
  * @usageNotes
  *
- * ### Basic Example
- *
  * ```ts
  * {
  *   path: 'auth-child',
