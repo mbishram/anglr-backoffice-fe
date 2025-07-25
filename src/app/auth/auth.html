@@ -1,0 +1,17 @@
+<main class="container flex flex-col grow justify-center min-h-screen py-4">
+  <div class="grid md:grid-cols-[3fr_2fr] items-center gap-4">
+    <div class="relative h-52 md:h-[unset] md:aspect-video">
+      <img
+        class="object-cover object-center rounded-xl"
+        [ngSrc]="imgSrc()"
+        [alt]="imgAlt()"
+        fill
+        priority
+        [placeholder]="PLACEHOLDER_IMAGE_BASE64"
+      />
+    </div>
+    <div>
+      <router-outlet />
+    </div>
+  </div>
+</main>

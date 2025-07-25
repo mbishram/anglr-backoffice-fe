@@ -4,3 +4,9 @@
 @theme {
   --font-sans: Inter, ui-sans-serif, system-ui, sans-serif;
 }
+
+@layer components {
+  .container {
+    @apply px-4 mx-auto;
+  }
+}

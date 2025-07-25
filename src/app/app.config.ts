@@ -7,17 +7,20 @@ import { provideRouter } from '@angular/router';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { providePrimeNG } from 'primeng/config';
 import { Theme } from 'theme';
-import { routes } from 'app/app.routes';
+import { appRoutes } from 'app/app.routes';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideZonelessChangeDetection(),
-    provideRouter(routes),
+    provideRouter(appRoutes),
     provideAnimationsAsync(),
     providePrimeNG({
       theme: {
         preset: Theme,
+        options: {
+          darkModeSelector: false,
+        },
       },
     }),
   ],
