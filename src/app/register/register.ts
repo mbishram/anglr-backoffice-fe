@@ -1,23 +1,23 @@
 import { Component, inject } from '@angular/core';
-import { InputTextModule } from 'primeng/inputtext';
-import { IftaLabelModule } from 'primeng/iftalabel';
+import { InputText } from 'primeng/inputtext';
+import { IftaLabel } from 'primeng/iftalabel';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ButtonModule } from 'primeng/button';
-import { MessageModule } from 'primeng/message';
+import { Button } from 'primeng/button';
+import { Message } from 'primeng/message';
 import { matchesValidator } from 'app/matches.directive';
 import { ValidatorMessageImpurePipe } from 'app/validator-message.pipe';
 import { MessageService } from 'primeng/api';
-import { PasswordModule } from 'primeng/password';
+import { Password } from 'primeng/password';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'agl-register',
   imports: [
-    InputTextModule,
-    IftaLabelModule,
-    ButtonModule,
-    MessageModule,
-    PasswordModule,
+    InputText,
+    IftaLabel,
+    Button,
+    Message,
+    Password,
     ReactiveFormsModule,
     ValidatorMessageImpurePipe,
   ],
@@ -53,7 +53,7 @@ export class Register {
 
       this.form.reset();
 
-      void this.router.navigate(['auth', 'login']);
+      void this.router.navigate(['/auth', 'login']);
     }
   }
 }
