@@ -11,7 +11,8 @@
           "skipTests": true
         },
         "@schematics/angular:class": {
-          "skipTests": true
+          "skipTests": true,
+          "type": "model"
         },
         "@schematics/angular:directive": {
           "skipTests": true,
@@ -31,6 +32,9 @@
         "@schematics/angular:service": {
           "skipTests": true,
           "type": "service"
+        },
+        "@schematics/angular:interface": {
+          "type": "d"
         }
       },
       "root": "",
