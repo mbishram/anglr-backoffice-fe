@@ -8,7 +8,7 @@ export class Account implements IAccount {
   id?: number;
   name: string;
   username: string;
-  password: string = '';
+  password: string;
 
   /**
    * Private constructor of account model

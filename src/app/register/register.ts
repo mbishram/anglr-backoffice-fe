@@ -9,6 +9,8 @@ import { ValidatorMessageImpurePipe } from 'app/validator-message.pipe';
 import { MessageService } from 'primeng/api';
 import { Password } from 'primeng/password';
 import { Router, RouterLink } from '@angular/router';
+import { AccountService } from 'app/account/account.service';
+import { Account } from 'app/account/account.model';
 
 @Component({
   selector: 'agl-register',
@@ -29,6 +31,7 @@ export class Register {
   private formBuilder = inject(FormBuilder).nonNullable;
   private messageService = inject(MessageService);
   private router = inject(Router);
+  private accountService = inject(AccountService);
 
   protected form = this.formBuilder.group(
     {
@@ -46,15 +49,29 @@ export class Register {
     this.form.markAllAsTouched();
 
     if (this.form.valid) {
-      this.messageService.add({
-        severity: 'success',
-        summary: 'Success',
-        detail: 'Account created successfully!',
+      const { passwordConfirmation, ...rest } = this.form.value;
+      const data = rest as Account;
+
+      this.accountService.register(data).subscribe({
+        next: () => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: 'Account created successfully!',
+          });
+
+          this.form.reset();
+
+          void this.router.navigate(['/auth', 'login']);
+        },
+        error: (error) => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Failed',
+            detail: 'Failed to create account! ' + error.body.message,
+          });
+        },
       });
-
-      this.form.reset();
-
-      void this.router.navigate(['/auth', 'login']);
     }
   }
 }
