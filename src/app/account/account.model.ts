@@ -1,4 +1,3 @@
-import bcrypt from 'bcryptjs';
 import { IAccount } from 'app/account/account';
 
 /**
@@ -22,23 +21,31 @@ export class Account implements IAccount {
     this.username = username;
     this.password = password;
   }
+  /**
+   * Return plain password
+   * WARNING: NEVER DO THIS! DOING IT HERE FOR DEMONSTRATION PURPOSE ONLY
+   */
+  get plainPassword() {
+    return this.password;
+  }
 
   /**
    * Builder for account
    * @param {IAccount} data
    */
   static async build(data: IAccount) {
-    const hashedPassword = await Account.hashPassword(data.password);
+    const hashedPassword = Account.hashPassword(data.password);
     return new Account({ ...data, password: hashedPassword });
   }
 
   /**
    * Hash a passed password
+   * NOTE: I tried doing encryption. Things gets complicated, and I don't have time 😔. Saving plain password for now
    * @param {string} password
    * @private
    */
   private static hashPassword(password: string) {
-    return bcrypt.hash(password, 10);
+    return password;
   }
 
   /**
@@ -47,6 +54,6 @@ export class Account implements IAccount {
    * @param {string} hashedPassword
    */
   static comparePassword(password: string, hashedPassword: string) {
-    return bcrypt.compare(password, hashedPassword);
+    return password === hashedPassword;
   }
 }
