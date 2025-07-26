@@ -1,4 +1,4 @@
-import { Component, inject, model, Signal } from '@angular/core';
+import { Component, inject, model } from '@angular/core';
 import { Dialog } from 'primeng/dialog';
 import { Button } from 'primeng/button';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -15,10 +15,5 @@ export class LoginAccountDialog {
   private accountService = inject(AccountService);
 
   visible = model(false);
-  protected accounts: Signal<Account[]> = toSignal(
-    this.accountService.fetchAccounts(),
-    {
-      initialValue: [],
-    },
-  );
+  protected accounts = toSignal<Account[]>(this.accountService.fetchAccounts());
 }

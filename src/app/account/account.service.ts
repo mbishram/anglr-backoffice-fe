@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { Account } from 'app/account/account.model';
 import { db } from 'db';
 import { from } from 'rxjs';
@@ -6,6 +6,7 @@ import { HttpResponse, HttpStatusCode } from '@angular/common/http';
 import { LoggerService } from 'app/logger.service';
 import { IAccount } from 'app/account/account';
 import { Jwt } from 'app/jwt.model';
+import { Router } from '@angular/router';
 
 /**
  * Service to handle app's account
@@ -15,9 +16,10 @@ import { Jwt } from 'app/jwt.model';
 })
 export class AccountService {
   private loggerService = inject(LoggerService);
+  private router = inject(Router);
 
-  accounts: Account[] = [];
-  loggedInAccount: Account | null = null;
+  protected accounts = signal<Account[]>([]);
+  protected loggedInAccount = signal<Account | null>(null);
 
   /**
    * Local storage access token key name
@@ -50,7 +52,7 @@ export class AccountService {
 
         if (account.isPasswordMatched(data.password)) {
           // Adding to cache
-          this.loggedInAccount = account;
+          this.loggedInAccount.set(account);
 
           await this.saveToken();
 
@@ -102,7 +104,7 @@ export class AccountService {
         });
 
         // Adding to cache
-        this.accounts.push(account);
+        this.accounts.update((prev) => [...prev, account]);
 
         this.loggerService.success(account);
 
@@ -112,18 +114,55 @@ export class AccountService {
   }
 
   /**
+   * Logout from app
+   */
+  logout() {
+    localStorage.removeItem(AccountService.ACCESS_TOKEN_KEY);
+    void this.router.navigate(['/auth', 'login']);
+  }
+
+  /**
    * Get all accounts from db or cache if it exist
    */
   fetchAccounts() {
     return from(
       (async () => {
         // If accounts cache doesn't exist, fetch them from db
-        if (!this.accounts.length)
-          this.accounts = await Promise.all(
-            (await db.account.toArray()).map(Account.build),
+        if (!this.accounts().length)
+          this.accounts.set(
+            await Promise.all((await db.account.toArray()).map(Account.build)),
           );
 
-        return this.accounts;
+        return this.accounts();
+      })(),
+    );
+  }
+
+  /**
+   * Get login account
+   */
+  fetchLoggedInAccount() {
+    return from(
+      (async () => {
+        // If cache exist return them
+        if (this.loggedInAccount()) return this.loggedInAccount();
+
+        // If accounts cache doesn't exist, fetch them from db
+        const tokenData = await this.parseToken();
+        const dbAccount = await db.account
+          .where('username')
+          .equals(tokenData.payload.username)
+          .first();
+
+        // Logout if account not found
+        if (!dbAccount) {
+          return Promise.reject(new Error('Account not found!'));
+        }
+
+        // Adding to cache
+        this.loggedInAccount.set(await Account.build(dbAccount));
+
+        return this.loggedInAccount();
       })(),
     );
   }
@@ -159,8 +198,8 @@ export class AccountService {
    * @private
    */
   private async saveToken() {
-    if (this.loggedInAccount) {
-      const token = await Jwt.sign({ ...this.loggedInAccount });
+    if (this.loggedInAccount()) {
+      const token = await Jwt.sign({ ...this.loggedInAccount() });
       localStorage.setItem(AccountService.ACCESS_TOKEN_KEY, token);
     }
   }
@@ -175,6 +214,6 @@ export class AccountService {
       throw new Error('Token not found!');
     }
 
-    return Jwt.verify(token);
+    return Jwt.verify<IAccount>(token);
   }
 }

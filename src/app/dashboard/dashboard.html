@@ -1,4 +1,37 @@
-<p>dashboard works!</p>
-<a [routerLink]="['/']">root</a>
-<br />
-<a [routerLink]="['/auth', 'login']">login</a>
+<div class="flex flex-col justify-center min-h-screen">
+  <p-menubar class="fixed! top-4 left-4 right-4" [model]="menus">
+    <ng-template #start>
+      <a [routerLink]="['']">
+        <img
+          class="object-cover object-center rounded-xl"
+          ngSrc="assets/images/angl_logo.png"
+          alt="Anglr logo"
+          height="35"
+          width="35"
+          [placeholder]="PLACEHOLDER_IMAGE_BASE64"
+        />
+      </a>
+    </ng-template>
+    <ng-template #end>
+      <div class="flex gap-2 items-center">
+        <p class="font-semibold">{{ name() }}</p>
+        <p-button
+          icon="pi pi-sign-out"
+          size="small"
+          severity="danger"
+          variant="outlined"
+          aria-label="Logout"
+          (click)="logout()"
+        />
+      </div>
+    </ng-template>
+  </p-menubar>
+
+  <main class="grow container pt-6 mt-[68px]">
+    <router-outlet />
+  </main>
+
+  <footer class="container pt-6 py-2 text-center">
+    <p class="text-muted-color">{{ today | date: "y" }}&copy; Anglr</p>
+  </footer>
+</div>

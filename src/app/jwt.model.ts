@@ -23,7 +23,7 @@ export class Jwt {
    * Verify JWT token, will throw an error if failed
    * @param token
    */
-  static async verify(token: string) {
-    return jwtVerify(token, Jwt.JWT_SECRET);
+  static async verify<T>(token: string) {
+    return jwtVerify<T>(token, Jwt.JWT_SECRET);
   }
 }
