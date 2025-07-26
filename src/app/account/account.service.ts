@@ -131,14 +131,18 @@ export class AccountService {
   /**
    * Check if user is authenticated
    */
-  async isAuthenticated() {
-    try {
-      await this.parseToken();
-      return true;
-    } catch (error) {
-      this.loggerService.error(error);
-      return false;
-    }
+  isAuthenticated() {
+    return from(
+      (async () => {
+        try {
+          await this.parseToken();
+          return true;
+        } catch (error) {
+          this.loggerService.error(error);
+          return false;
+        }
+      })(),
+    );
   }
 
   /**
