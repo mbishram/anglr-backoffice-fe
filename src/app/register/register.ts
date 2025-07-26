@@ -10,7 +10,7 @@ import { MessageService } from 'primeng/api';
 import { Password } from 'primeng/password';
 import { Router, RouterLink } from '@angular/router';
 import { AccountService } from 'app/account/account.service';
-import { Account } from 'app/account/account.model';
+import { IAccount } from 'app/account/account';
 
 @Component({
   selector: 'agl-register',
@@ -50,7 +50,7 @@ export class Register {
 
     if (this.form.valid) {
       const { passwordConfirmation, ...rest } = this.form.value;
-      const data = rest as Account;
+      const data = rest as IAccount;
 
       this.accountService.register(data).subscribe({
         next: () => {

@@ -5,6 +5,7 @@ import { from } from 'rxjs';
 import { HttpResponse, HttpStatusCode } from '@angular/common/http';
 import { LoggerService } from 'app/logger.service';
 import { IAccount } from 'app/account/account';
+import { Jwt } from 'app/jwt.model';
 
 /**
  * Service to handle app's account
@@ -16,12 +17,61 @@ export class AccountService {
   private loggerService = inject(LoggerService);
 
   accounts: Account[] = [];
-  currentAccount: Account | null = null;
+  loggedInAccount: Account | null = null;
 
-  login() {
-    // TODO: Check password with user.
-    //   If matched, safe account, save jwt to local storage
-    //   save account to attribute
+  /**
+   * Local storage access token key name
+   */
+  private static ACCESS_TOKEN_KEY = 'ACCESS_TOKEN_KEY';
+
+  login(data: Omit<IAccount, 'id' | 'name'>) {
+    return from(
+      (async () => {
+        const dbAccount = await db.account
+          .where('username')
+          .equals(data.username)
+          .first();
+
+        if (!dbAccount) {
+          const error = new Error('Account not found!');
+
+          this.loggerService.error(error);
+
+          return Promise.reject(
+            new HttpResponse({
+              status: HttpStatusCode.NotFound,
+              statusText: 'Not Found',
+              body: error,
+            }),
+          );
+        }
+
+        const account = await Account.build(dbAccount);
+
+        if (account.isPasswordMatched(data.password)) {
+          // Adding to cache
+          this.loggedInAccount = account;
+
+          await this.saveToken();
+
+          this.loggerService.success(account);
+
+          return new HttpResponse({ body: account });
+        } else {
+          const error = new Error('Unauthorized account!');
+
+          this.loggerService.error(error);
+
+          return Promise.reject(
+            new HttpResponse({
+              status: HttpStatusCode.Unauthorized,
+              statusText: 'Unauthorized',
+              body: error,
+            }),
+          );
+        }
+      })(),
+    );
   }
 
   /**
@@ -51,7 +101,8 @@ export class AccountService {
           password: account.plainPassword,
         });
 
-        this.addAccountToCache(account);
+        // Adding to cache
+        this.accounts.push(account);
 
         this.loggerService.success(account);
 
@@ -77,19 +128,17 @@ export class AccountService {
     );
   }
 
-  isAuthenticated(): boolean {
-    // TODO: Check if jwt exist from local storage
-    //   If it do, check if it is still valid, return result in boolean
-    return false;
-  }
-
   /**
-   * Add account to service cache
-   * @param {Account} account
-   * @private
+   * Check if user is authenticated
    */
-  private addAccountToCache(account: Account) {
-    return this.accounts.push(account);
+  async isAuthenticated() {
+    try {
+      await this.parseToken();
+      return true;
+    } catch (error) {
+      this.loggerService.error(error);
+      return false;
+    }
   }
 
   /**
@@ -101,11 +150,27 @@ export class AccountService {
     return (await db.account.where('username').equals(username).count()) > 0;
   }
 
-  private saveJWT() {
-    // TODO: Generate and, save JWT to local storage
+  /**
+   * Generate and saving token to local storage
+   * @private
+   */
+  private async saveToken() {
+    if (this.loggedInAccount) {
+      const token = await Jwt.sign({ ...this.loggedInAccount });
+      localStorage.setItem(AccountService.ACCESS_TOKEN_KEY, token);
+    }
   }
 
-  private parseJWT() {
-    // TODO: Get jwt from storage and Parsed them, return result
+  /**
+   * Get parsed token data
+   * @private
+   */
+  private async parseToken() {
+    const token = localStorage.getItem(AccountService.ACCESS_TOKEN_KEY);
+    if (!token) {
+      throw new Error('Token not found!');
+    }
+
+    return Jwt.verify(token);
   }
 }

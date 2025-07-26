@@ -59,11 +59,11 @@ export class Account implements IAccount {
   }
 
   /**
-   * Compare a hashed password
+   * Check password matched
+   * NOTE: Was suppose to be checked against encrypted password, alas...
    * @param {string} password
-   * @param {string} hashedPassword
    */
-  static comparePassword(password: string, hashedPassword: string) {
-    return password === hashedPassword;
+  isPasswordMatched(password: string) {
+    return password === this.#password;
   }
 }
