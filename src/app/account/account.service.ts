@@ -26,6 +26,10 @@ export class AccountService {
    */
   private static ACCESS_TOKEN_KEY = 'ACCESS_TOKEN_KEY';
 
+  /**
+   * Login to app
+   * @param {Omit<IAccount, 'id' | 'name'>} data
+   */
   login(data: Omit<IAccount, 'id' | 'name'>) {
     return from(
       (async () => {
