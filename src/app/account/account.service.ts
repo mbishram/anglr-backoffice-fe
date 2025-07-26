@@ -92,6 +92,11 @@ export class AccountService {
     return this.accounts.push(account);
   }
 
+  /**
+   * Check if `username` already exist on db
+   * @param {string} username
+   * @private
+   */
   private async isUsernameExist(username: string) {
     return (await db.account.where('username').equals(username).count()) > 0;
   }
