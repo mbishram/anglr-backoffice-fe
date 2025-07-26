@@ -1,8 +1,9 @@
 import Dexie, { Table } from 'dexie';
+import { IAccount } from 'app/account/account';
 import { Account } from 'app/account/account.model';
 
 export class Db extends Dexie {
-  account!: Table<Account, number>;
+  account!: Table<IAccount, number>;
 
   constructor() {
     super('anglr');
@@ -15,17 +16,16 @@ export class Db extends Dexie {
   }
 
   private static async seed(db: Dexie) {
-    const account = db.table<Account>('account');
+    const accounts = db.table<IAccount>('account');
 
     // Populate account table only if it's empty
-    if ((await account.count()) < 1) {
-      await account.add(
-        await Account.build({
-          name: 'Admin',
-          username: 'admin',
-          password: 'admin',
-        }),
-      );
+    if ((await accounts.count()) < 1) {
+      const account = await Account.build({
+        name: 'Admin',
+        username: 'admin',
+        password: 'admin',
+      });
+      await accounts.add({ ...account, password: account.plainPassword });
     }
   }
 }

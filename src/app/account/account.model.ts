@@ -7,7 +7,7 @@ export class Account implements IAccount {
   id?: number;
   name: string;
   username: string;
-  password: string;
+  #password: string;
 
   /**
    * Private constructor of account model
@@ -19,14 +19,24 @@ export class Account implements IAccount {
     this.id = id;
     this.name = name;
     this.username = username;
-    this.password = password;
+    this.#password = password; // Private password so that it doesn't get returned
   }
+
+  /**
+   * Password setter.
+   * Making it like this instead of public, so that password doesn't get returned by default
+   * @param password
+   */
+  set password(password: string) {
+    this.#password = password;
+  }
+
   /**
    * Return plain password
    * WARNING: NEVER DO THIS! DOING IT HERE FOR DEMONSTRATION PURPOSE ONLY
    */
   get plainPassword() {
-    return this.password;
+    return this.#password;
   }
 
   /**
