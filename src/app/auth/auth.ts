@@ -6,12 +6,8 @@ import {
   Router,
   RouterOutlet,
 } from '@angular/router';
-import {
-  MISSING_IMAGE_SRC,
-  MISSING_IMAGE_ALT,
-  PLACEHOLDER_IMAGE_BASE64,
-} from 'app/app.constant';
 import { filter } from 'rxjs';
+import { File } from 'app/file.model';
 
 @Component({
   selector: 'agl-auth',
@@ -23,10 +19,10 @@ export class Auth implements OnDestroy {
   router = inject(Router);
   activatedRoute = inject(ActivatedRoute);
 
-  protected readonly PLACEHOLDER_IMAGE_BASE64 = PLACEHOLDER_IMAGE_BASE64;
+  protected readonly PLACEHOLDER_IMAGE_BASE64 = File.PLACEHOLDER_IMAGE_BASE64;
 
-  protected imgSrc = signal<string>(MISSING_IMAGE_SRC);
-  protected imgAlt = signal<string>(MISSING_IMAGE_ALT);
+  protected imgSrc = signal<string>(File.MISSING_IMAGE_SRC);
+  protected imgAlt = signal<string>(File.MISSING_IMAGE_ALT);
 
   private routerEvent$;
 
