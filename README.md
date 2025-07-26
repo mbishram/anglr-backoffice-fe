@@ -13,6 +13,12 @@ For package manager, this project are using Bun. Installation guide can be found
 
 If you want to know about style guide used, please refer to the [Angular style guides](https://angular.dev/style-guide) page.
 
+### Library Used
+
+- [PrimeNG](https://primeng.org/)
+- [TailwindCSS](https://tailwindcss.com/)
+- [Dexie.js](https://dexie.org/)
+
 ## Development server
 
 To start a local development server, you can run the command below.
