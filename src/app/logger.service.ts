@@ -7,11 +7,23 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class LoggerService {
-  success(value: any, message?: string) {
-    console.log(message ?? '✅ Request successful!', value);
+  /**
+   * Log success action
+   * @param {any} value - Result value
+   * @param {string} action - Action done
+   * @param {string} message - Custom message
+   */
+  success(value: any, action: string, message?: string) {
+    console.log(message ?? '✅ Request successful!', action, value);
   }
 
-  error(value: any, message?: string) {
-    console.error(message ?? '⛔ Request failed!', value);
+  /**
+   * Log error action
+   * @param {any} value - Error value
+   * @param {string} action - Action done
+   * @param {string} message - Custom message
+   */
+  error(value: any, action: string, message?: string) {
+    console.error(message ?? '⛔ Request failed!', action, value);
   }
 }

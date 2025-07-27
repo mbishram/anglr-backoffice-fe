@@ -41,7 +41,7 @@ export class AccountService {
         if (!dbAccount) {
           const error = new Error('Account not found!');
 
-          this.loggerService.error(error);
+          this.loggerService.error(error, 'AccountService.login');
 
           return Promise.reject(
             new HttpResponse({
@@ -60,13 +60,13 @@ export class AccountService {
 
           await this.saveToken();
 
-          this.loggerService.success(account);
+          this.loggerService.success(account, 'AccountService.login');
 
           return new HttpResponse({ body: account });
         } else {
           const error = new Error('Unauthorized account!');
 
-          this.loggerService.error(error);
+          this.loggerService.error(error, 'AccountService.login');
 
           return Promise.reject(
             new HttpResponse({
@@ -90,7 +90,7 @@ export class AccountService {
         if (await this.isUsernameExist(data.username)) {
           const error = new Error('Username already exist!');
 
-          this.loggerService.error(error);
+          this.loggerService.error(error, 'AccountService.register');
 
           return Promise.reject(
             new HttpResponse({
@@ -110,7 +110,7 @@ export class AccountService {
         // Adding to cache
         this.accounts.update((prev) => [...prev, account]);
 
-        this.loggerService.success(account);
+        this.loggerService.success(account, 'AccountService.register');
 
         return new HttpResponse({ body: account });
       })(),
@@ -122,6 +122,9 @@ export class AccountService {
    */
   logout() {
     localStorage.removeItem(AccountService.ACCESS_TOKEN_KEY);
+
+    this.loggerService.success(null, 'AccountService.logout');
+
     void this.router.navigate(['/auth', 'login']);
   }
 
@@ -181,7 +184,7 @@ export class AccountService {
           await this.parseToken();
           return true;
         } catch (error) {
-          this.loggerService.error(error);
+          this.loggerService.error(error, 'AccountService.isAuthenticated');
           return false;
         }
       })(),

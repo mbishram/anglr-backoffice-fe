@@ -1,6 +1,6 @@
 import { Component, computed, inject } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
-import { MenuItem } from 'primeng/api';
+import { MenuItem, MessageService } from 'primeng/api';
 import { Menubar } from 'primeng/menubar';
 import { DatePipe, NgOptimizedImage } from '@angular/common';
 import { File } from 'app/file.model';
@@ -23,6 +23,7 @@ import { Button } from 'primeng/button';
 })
 export class Dashboard {
   private accountService = inject(AccountService);
+  private messageService = inject(MessageService);
 
   protected readonly PLACEHOLDER_IMAGE_BASE64 = File.PLACEHOLDER_IMAGE_BASE64;
   protected readonly today = new Date();
@@ -42,5 +43,11 @@ export class Dashboard {
 
   protected logout() {
     this.accountService.logout();
+
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Success',
+      detail: 'You have successfully logged out!',
+    });
   }
 }
