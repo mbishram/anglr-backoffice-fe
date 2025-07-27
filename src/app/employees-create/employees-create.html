@@ -1,1 +1,237 @@
-<p>employees-create works!</p>
+<header class="mb-6">
+  <p-breadcrumb styleClass="mb-2" [model]="breadcrumbs" [home]="home" />
+  <h1 class="header">Create Employee</h1>
+</header>
+
+<p-card>
+  <form [formGroup]="form" (ngSubmit)="submitForm()">
+    <div class="grid gap-4 mb-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        @let firstNameErrorMessage =
+          form.get("firstName") | validatorMessageImpure: "First name";
+        <div class="form-group">
+          <p-iftalabel>
+            <input
+              pInputText
+              id="firstName"
+              formControlName="firstName"
+              fluid
+              [invalid]="!!firstNameErrorMessage"
+            />
+            <label for="name">First Name</label>
+          </p-iftalabel>
+          @if (!!firstNameErrorMessage) {
+            <p-message severity="error" variant="simple" size="small"
+              >{{ firstNameErrorMessage }}
+            </p-message>
+          }
+        </div>
+        @let lastNameErrorMessage =
+          form.get("lastName") | validatorMessageImpure: "Last name";
+        <div class="form-group">
+          <p-iftalabel>
+            <input
+              pInputText
+              id="last-name"
+              formControlName="lastName"
+              fluid
+              [invalid]="!!lastNameErrorMessage"
+            />
+            <label for="last-name">Last Name</label>
+          </p-iftalabel>
+          @if (!!lastNameErrorMessage) {
+            <p-message severity="error" variant="simple" size="small"
+              >{{ lastNameErrorMessage }}
+            </p-message>
+          }
+        </div>
+      </div>
+      @let usernameErrorMessage =
+        form.get("username") | validatorMessageImpure: "Username";
+      <div class="form-group">
+        <p-iftalabel>
+          <input
+            pInputText
+            id="username"
+            formControlName="username"
+            fluid
+            [invalid]="!!usernameErrorMessage"
+          />
+          <label for="username">Username</label>
+        </p-iftalabel>
+        @if (!!usernameErrorMessage) {
+          <p-message severity="error" variant="simple" size="small"
+            >{{ usernameErrorMessage }}
+          </p-message>
+        }
+      </div>
+      @let emailErrorMessage =
+        form.get("email") | validatorMessageImpure: "Email";
+      <div class="form-group">
+        <p-iftalabel>
+          <input
+            pInputText
+            type="email"
+            id="email"
+            formControlName="email"
+            fluid
+            [invalid]="!!emailErrorMessage"
+          />
+          <label for="email">Email</label>
+        </p-iftalabel>
+        @if (!!emailErrorMessage) {
+          <p-message severity="error" variant="simple" size="small"
+            >{{ emailErrorMessage }}
+          </p-message>
+        }
+      </div>
+      @let birthDateErrorMessage =
+        form.get("birthDate") | validatorMessageImpure: "Birth date";
+      <div class="form-group">
+        <p-iftalabel>
+          <p-date-picker
+            id="birth-date"
+            formControlName="birthDate"
+            [maxDate]="birthDateMaxDate"
+            showButtonBar
+            showIcon
+            fluid
+            [invalid]="!!birthDateErrorMessage"
+          />
+          <label for="birth-date">Birth Date</label>
+        </p-iftalabel>
+        @if (!!birthDateErrorMessage) {
+          <p-message severity="error" variant="simple" size="small"
+            >{{ birthDateErrorMessage }}
+          </p-message>
+        }
+      </div>
+      @let basicSalaryErrorMessage =
+        form.get("basicSalary") | validatorMessageImpure: "Basic salary";
+      <div class="form-group">
+        <p-iftalabel>
+          <p-input-number
+            currency="IDR"
+            id="basic-salary"
+            formControlName="basicSalary"
+            mode="currency"
+            minFractionDigits="0"
+            fluid
+            [invalid]="!!basicSalaryErrorMessage"
+          />
+          <label for="basic-salary">Basic Salary</label>
+        </p-iftalabel>
+        @if (!!basicSalaryErrorMessage) {
+          <p-message severity="error" variant="simple" size="small"
+            >{{ basicSalaryErrorMessage }}
+          </p-message>
+        }
+      </div>
+      @let statusErrorMessage =
+        form.get("status") | validatorMessageImpure: "Status";
+      <div class="form-group">
+        <p-iftalabel>
+          <p-select
+            id="status"
+            formControlName="status"
+            fluid
+            [options]="Employee.STATUS_OPTIONS"
+            [invalid]="!!statusErrorMessage"
+          >
+            <ng-template #selectedItem let-status>
+              <p-tag
+                [value]="Employee.getStatusDescription(status)"
+                [severity]="Employee.getStatusSeverity(status)"
+              />
+            </ng-template>
+            <ng-template #item let-status>
+              <p-tag
+                [value]="Employee.getStatusDescription(status)"
+                [severity]="Employee.getStatusSeverity(status)"
+              />
+            </ng-template>
+          </p-select>
+          <label for="status">Status</label>
+        </p-iftalabel>
+        @if (!!statusErrorMessage) {
+          <p-message severity="error" variant="simple" size="small"
+            >{{ statusErrorMessage }}
+          </p-message>
+        }
+      </div>
+      @let groupErrorMessage =
+        form.get("group") | validatorMessageImpure: "Group";
+      <div class="form-group">
+        <p-iftalabel>
+          <p-select
+            id="group"
+            formControlName="group"
+            filter
+            fluid
+            [options]="Employee.GROUP_OPTIONS"
+            [invalid]="!!groupErrorMessage"
+          >
+            <ng-template #selectedItem let-group>
+              {{ Employee.getGroupDescription(group) }}
+            </ng-template>
+            <ng-template #item let-group>
+              {{ Employee.getGroupDescription(group) }}
+              &nbsp;<strong>({{ group }})</strong>
+            </ng-template>
+            <ng-template #footer>
+              <div class="px-4 py-2 border-t border-gray-300 text-muted-color">
+                <p>
+                  Filter is against the
+                  <strong>value (inside parenthesis)</strong> instead of label.
+                </p>
+                <p>i.e. Human Resource <strong>(hr)</strong> <-- This one</p>
+              </div>
+            </ng-template>
+          </p-select>
+          <label for="group">Group</label>
+        </p-iftalabel>
+        @if (!!groupErrorMessage) {
+          <p-message severity="error" variant="simple" size="small"
+            >{{ groupErrorMessage }}
+          </p-message>
+        }
+      </div>
+      <!-- NOTE: It is in the requirement, description = datetime -->
+      @let descriptionErrorMessage =
+        form.get("description") | validatorMessageImpure: "Description";
+      <div class="form-group">
+        <p-iftalabel>
+          <p-date-picker
+            id="description"
+            formControlName="description"
+            showButtonBar
+            showIcon
+            [showTime]="true"
+            fluid
+            [invalid]="!!descriptionErrorMessage"
+          />
+          <label for="description">Description</label>
+        </p-iftalabel>
+        @if (!!descriptionErrorMessage) {
+          <p-message severity="error" variant="simple" size="small"
+            >{{ descriptionErrorMessage }}
+          </p-message>
+        }
+      </div>
+    </div>
+
+    <div class="sm:flex gap-2 justify-end mt-6">
+      <a [routerLink]="['../']">
+        <p-button
+          label="Cancel"
+          icon="pi pi-arrow-left"
+          severity="secondary"
+          variant="outlined"
+          fluid
+          styleClass="mb-2 sm:mb-[unset]"
+        />
+      </a>
+      <p-button type="submit" label="Submit" icon="pi pi-save" fluid />
+    </div>
+  </form>
+</p-card>

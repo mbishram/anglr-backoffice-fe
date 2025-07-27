@@ -4,7 +4,7 @@ import { IftaLabel } from 'primeng/iftalabel';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Button } from 'primeng/button';
 import { Message } from 'primeng/message';
-import { matchesValidator } from 'app/matches.directive';
+import { matchesValidator } from 'app/matches.validator';
 import { ValidatorMessageImpurePipe } from 'app/validator-message.pipe';
 import { MessageService } from 'primeng/api';
 import { Password } from 'primeng/password';
