@@ -147,7 +147,7 @@
             [showOperator]="false"
             [showAddButton]="false"
           >
-            <ng-template #filter let-value let-filter="filterCallback">
+            <ng-template #filter let-filter="filterCallback">
               <p-multiSelect
                 [options]="Employee.STATUS_OPTIONS"
                 placeholder="Click to search"
@@ -228,18 +228,25 @@
         <td>
           <div class="flex gap-2 items-center">
             <a [routerLink]="[employee.id]">
-              <p-button icon="pi pi-search" severity="secondary" outlined />
+              <p-button
+                icon="pi pi-search"
+                severity="secondary"
+                outlined
+                ariaLabel="Detail"
+              />
             </a>
             <p-button
               icon="pi pi-pencil"
               outlined
               (click)="updateEmployee(employee)"
+              ariaLabel="Update"
             />
             <p-button
               icon="pi pi-trash"
               severity="danger"
               outlined
               (click)="deleteEmployee(employee)"
+              ariaLabel="Delete"
             />
           </div>
         </td>
