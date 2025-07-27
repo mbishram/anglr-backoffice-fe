@@ -12,7 +12,7 @@ import { Card } from 'primeng/card';
 import { IconField } from 'primeng/iconfield';
 import { InputIcon } from 'primeng/inputicon';
 import { InputText } from 'primeng/inputtext';
-import { Table, TableFilterEvent, TableModule } from 'primeng/table';
+import { Table, TableModule } from 'primeng/table';
 import { Employee } from 'app/employees/employee.model';
 import { RouterLink } from '@angular/router';
 import { CurrencyPipe, DatePipe } from '@angular/common';

@@ -5,6 +5,8 @@ import { authRoutes } from 'app/auth/auth.route';
 import { authGuard } from 'app/account/auth.guard';
 import { guestGuard } from 'app/account/guest.guard';
 import { Employees } from 'app/employees/employees';
+import { EmployeesDetail } from 'app/employees-detail/employees-detail';
+import { EmployeesCreate } from 'app/employees-create/employees-create';
 
 export const appRoutes: Routes = [
   // Auth routes
@@ -30,6 +32,8 @@ export const appRoutes: Routes = [
       // Redirect to employees page if user tried to go to '/'
       { path: '', redirectTo: '/employees', pathMatch: 'full' },
       { path: 'employees', component: Employees },
+      { path: 'employees/create', component: EmployeesCreate },
+      { path: 'employees/:id', component: EmployeesDetail },
     ],
   },
 
