@@ -1,1 +1,90 @@
-<p>employees-detail works!</p>
+<header class="mb-6">
+  <p-breadcrumb styleClass="mb-2" [model]="breadcrumbs" [home]="home" />
+  <h1 class="header">Detail Employee</h1>
+</header>
+
+<p-card>
+  <div class="flex items-center gap-2 mb-6">
+    <p-button label="Update" icon="pi pi-pencil" (click)="update()" />
+    <p-button
+      label="Delete"
+      severity="danger"
+      icon="pi pi-trash"
+      (click)="delete()"
+    />
+  </div>
+
+  <div
+    class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
+  >
+    @if (employee()) {
+      <div>
+        <p class="font-semibold">First Name</p>
+        <p>
+          {{ employee()?.firstName }}
+        </p>
+      </div>
+      <div>
+        <p class="font-semibold">Last Name</p>
+        <p>
+          {{ employee()?.lastName }}
+        </p>
+      </div>
+      <div>
+        <p class="font-semibold">Username</p>
+        <p>
+          {{ employee()?.username }}
+        </p>
+      </div>
+      <div>
+        <p class="font-semibold">Email</p>
+        <p>
+          {{ employee()?.email }}
+        </p>
+      </div>
+      <div>
+        <p class="font-semibold">Birth Date</p>
+        <p>
+          {{ employee()?.birthDate | date: "longDate" }}
+        </p>
+      </div>
+      <div>
+        <p class="font-semibold">Basic Salary</p>
+        <p>
+          {{ employee()?.basicSalary | currency }}
+        </p>
+      </div>
+      <div>
+        <p class="font-semibold">Status</p>
+        <p>
+          {{ employee()?.statusDescription }}
+        </p>
+      </div>
+      <div>
+        <p class="font-semibold">Group</p>
+        <p>
+          {{ employee()?.groupDescription }}
+        </p>
+      </div>
+      <div>
+        <p class="font-semibold">Description</p>
+        <p>
+          {{ employee()?.description | date: "long" }}
+        </p>
+      </div>
+    } @else {
+      <p>Loading...</p>
+    }
+  </div>
+
+  <div class="sm:flex gap-4 justify-end mt-6">
+    <a [routerLink]="['../']">
+      <p-button
+        label="Ok"
+        icon="pi pi-arrow-left"
+        fluid
+        styleClass="w-full md:w-[unset]"
+      />
+    </a>
+  </div>
+</p-card>

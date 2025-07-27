@@ -161,7 +161,7 @@ export class AccountService {
           .equals(tokenData.payload.username)
           .first();
 
-        // Logout if account not found
+        // Return error if it doesn't exist
         if (!dbAccount) {
           return Promise.reject(new Error('Account not found!'));
         }
