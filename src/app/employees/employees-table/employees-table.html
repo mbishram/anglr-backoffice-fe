@@ -14,13 +14,6 @@
   >
     <ng-template #caption>
       <div class="flex flex-wrap gap-2 justify-center md:justify-between">
-        <p-button
-          label="Clear"
-          [outlined]="!isFiltered()"
-          icon="pi pi-filter-slash"
-          (click)="clearFilter(table)"
-        />
-
         <div class="flex gap-2 flex-wrap justify-center">
           <p-iconfield iconPosition="left">
             <p-inputicon class="pi pi-search" />
@@ -32,12 +25,20 @@
               placeholder="Search keyword"
               pTooltip="Search by name, username, or email"
               tooltipPosition="top"
+              fluid
             />
           </p-iconfield>
-          <a [routerLink]="['/employees', 'create']">
-            <p-button icon="pi pi-plus" label="Tambah" />
-          </a>
+          <p-button
+            label="Clear"
+            [outlined]="!isFiltered()"
+            icon="pi pi-filter-slash"
+            (click)="clearFilter(table)"
+          />
         </div>
+
+        <a [routerLink]="['/employees', 'create']">
+          <p-button icon="pi pi-plus" label="Tambah" />
+        </a>
       </div>
     </ng-template>
     <ng-template #header>
