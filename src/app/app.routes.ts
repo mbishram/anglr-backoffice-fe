@@ -31,9 +31,17 @@ export const appRoutes: Routes = [
     children: [
       // Redirect to employees page if user tried to go to '/'
       { path: '', redirectTo: '/employees', pathMatch: 'full' },
-      { path: 'employees', component: Employees },
-      { path: 'employees/create', component: EmployeesCreate },
-      { path: 'employees/:id', component: EmployeesDetail },
+      { path: 'employees', component: Employees, title: 'Employees' },
+      {
+        path: 'employees/create',
+        component: EmployeesCreate,
+        title: 'Create Employee',
+      },
+      {
+        path: 'employees/:id',
+        component: EmployeesDetail,
+        title: 'Detail Employee',
+      },
     ],
   },
 

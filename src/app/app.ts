@@ -8,4 +8,6 @@ import { ToastModule } from 'primeng/toast';
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
-export class App {}
+export class App {
+  static readonly APP_TITLE = 'Anglr Backoffice';
+}
