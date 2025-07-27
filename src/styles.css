@@ -28,3 +28,9 @@
     @apply blur-xs hover:blur-none;
   }
 }
+
+:root {
+  /* PrimeNG Override */
+  /* BTW, !important is needed, can't find how to not use them */
+  --p-breadcrumb-padding: 0 !important;
+}

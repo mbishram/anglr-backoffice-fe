@@ -1,5 +1,6 @@
 import {
   ApplicationConfig,
+  DEFAULT_CURRENCY_CODE,
   provideBrowserGlobalErrorListeners,
   provideZonelessChangeDetection,
 } from '@angular/core';
@@ -9,6 +10,7 @@ import { providePrimeNG } from 'primeng/config';
 import { MessageService } from 'primeng/api';
 import { Theme } from 'theme';
 import { appRoutes } from 'app/app.routes';
+import { DATE_PIPE_DEFAULT_OPTIONS } from '@angular/common';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -25,5 +27,10 @@ export const appConfig: ApplicationConfig = {
       },
     }),
     MessageService,
+    {
+      provide: DATE_PIPE_DEFAULT_OPTIONS,
+      useValue: { dateFormat: 'shortDate' },
+    },
+    { provide: DEFAULT_CURRENCY_CODE, useValue: 'IDR' },
   ],
 };

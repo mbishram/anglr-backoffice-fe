@@ -1,0 +1,255 @@
+<p-card>
+  <p-table
+    #table
+    [value]="employees() ?? []"
+    dataKey="id"
+    [paginator]="$any(true)"
+    [rows]="10"
+    [rowsPerPageOptions]="[5, 10, 50, 100]"
+    [globalFilterFields]="['fullName', 'username', 'email']"
+    stateStorage="session"
+    stateKey="EMPLOYEE_TABLE_META"
+    (onFilter)="checkFilteredStatus(table)"
+    (onSort)="checkFilteredStatus(table)"
+  >
+    <ng-template #caption>
+      <div class="flex flex-wrap gap-2 justify-center md:justify-between">
+        <p-button
+          label="Clear"
+          [outlined]="!isFiltered()"
+          icon="pi pi-filter-slash"
+          (click)="clearFilter(table)"
+        />
+
+        <div class="flex gap-2 flex-wrap justify-center">
+          <p-iconfield iconPosition="left">
+            <p-inputicon class="pi pi-search" />
+            <input
+              pInputText
+              type="text"
+              [value]="$any(table.filters['global'])?.value"
+              (input)="filterGlobal(table, $event)"
+              placeholder="Search keyword"
+              pTooltip="Search by name, username, or email"
+              tooltipPosition="top"
+            />
+          </p-iconfield>
+          <a [routerLink]="['/employees', 'create']">
+            <p-button icon="pi pi-plus" label="Tambah" />
+          </a>
+        </div>
+      </div>
+    </ng-template>
+    <ng-template #header>
+      <tr>
+        <th pSortableColumn="fullName">
+          <span class="flex items-center gap-2">
+            Name <p-sortIcon field="fullName" />
+          </span>
+        </th>
+        <th pSortableColumn="username">
+          <span class="flex items-center gap-2">
+            Username <p-sortIcon field="username" />
+          </span>
+        </th>
+        <th pSortableColumn="email">
+          <span class="flex items-center gap-2">
+            Email <p-sortIcon field="email" />
+          </span>
+        </th>
+        <th pSortableColumn="birthDate" class="whitespace-nowrap">
+          <span class="flex items-center gap-2">
+            Birth Date <p-sortIcon field="birthDate" />
+          </span>
+        </th>
+        <th pSortableColumn="basicSalary">
+          <span class="flex items-center gap-2">
+            Basic Salary <p-sortIcon field="basicSalary" />
+          </span>
+        </th>
+        <th pSortableColumn="status">
+          <span class="flex items-center gap-2">
+            Status <p-sortIcon field="status" />
+          </span>
+        </th>
+        <th pSortableColumn="group">
+          <span class="flex items-center gap-2">
+            Group <p-sortIcon field="group" />
+          </span>
+        </th>
+        <th pSortableColumn="description">
+          <span class="flex items-center gap-2">
+            Description <p-sortIcon field="description" />
+          </span>
+        </th>
+        <th>Action</th>
+      </tr>
+      <tr>
+        <th>
+          <p-columnFilter
+            type="text"
+            field="fullName"
+            placeholder="Type to search"
+            ariaLabel="Filter full name"
+            filterOn="input"
+            display="menu"
+          />
+        </th>
+        <th>
+          <p-columnFilter
+            type="text"
+            field="username"
+            placeholder="Type to search"
+            ariaLabel="Filter username"
+            filterOn="input"
+            display="menu"
+          />
+        </th>
+        <th>
+          <p-columnFilter
+            type="text"
+            field="email"
+            placeholder="Type to search"
+            ariaLabel="Filter email"
+            filterOn="input"
+            display="menu"
+          />
+        </th>
+        <th>
+          <p-columnFilter
+            type="date"
+            field="birthDate"
+            placeholder="Click to search"
+            ariaLabel="Filter birth date"
+            filterOn="input"
+            display="menu"
+          />
+        </th>
+        <th>
+          <p-columnFilter
+            type="numeric"
+            currency="IDR"
+            field="basicSalary"
+            placeholder="Type to search"
+            ariaLabel="Filter basic salary"
+            filterOn="input"
+            display="menu"
+          />
+        </th>
+        <th>
+          <p-columnFilter
+            field="status"
+            matchMode="in"
+            ariaLabel="Filter status"
+            display="menu"
+            [showMatchModes]="false"
+            [showOperator]="false"
+            [showAddButton]="false"
+          >
+            <ng-template #filter let-value let-filter="filterCallback">
+              <p-multiSelect
+                [options]="Employee.STATUS_OPTIONS"
+                placeholder="Click to search"
+                [(ngModel)]="statusFilter"
+                (onChange)="filter($event.value)"
+                display="chip"
+                style="min-width: 12rem"
+                [maxSelectedLabels]="2"
+              >
+                <ng-template #item let-status>
+                  <p-tag
+                    [value]="Employee.getStatusDescription(status)"
+                    [severity]="Employee.getStatusSeverity(status)"
+                  />
+                </ng-template>
+              </p-multiSelect>
+            </ng-template>
+          </p-columnFilter>
+        </th>
+        <th>
+          <p-columnFilter
+            field="group"
+            matchMode="in"
+            ariaLabel="Filter group"
+            display="menu"
+            [showMatchModes]="false"
+            [showOperator]="false"
+            [showAddButton]="false"
+          >
+            <ng-template #filter let-filter="filterCallback">
+              <p-multiSelect
+                [options]="Employee.GROUP_OPTIONS"
+                placeholder="Click to search"
+                [(ngModel)]="groupFilter"
+                (onChange)="filter($event.value)"
+                display="chip"
+                style="min-width: 12rem"
+                [maxSelectedLabels]="2"
+              >
+                <ng-template #item let-group>
+                  {{ Employee.getGroupDescription(group) }}
+                </ng-template>
+              </p-multiSelect>
+            </ng-template>
+          </p-columnFilter>
+        </th>
+        <th>
+          <p-columnFilter
+            type="date"
+            field="description"
+            placeholder="Click to search"
+            ariaLabel="Filter description"
+            filterOn="input"
+            display="menu"
+          />
+        </th>
+        <th></th>
+      </tr>
+    </ng-template>
+
+    <ng-template #body let-employee>
+      <tr>
+        <td>{{ employee.fullName }}</td>
+        <td>{{ employee.username }}</td>
+        <td>{{ employee.email }}</td>
+        <td>{{ employee.birthDate | date }}</td>
+        <td>{{ employee.basicSalary | currency }}</td>
+        <td>
+          <p-tag
+            [value]="employee.statusDescription"
+            [severity]="employee.statusSeverity"
+          />
+        </td>
+        <td>
+          {{ employee.groupDescription }}
+        </td>
+        <td>{{ employee.description | date: "long" }}</td>
+        <td>
+          <div class="flex gap-2 items-center">
+            <a [routerLink]="[employee.id]">
+              <p-button icon="pi pi-search" severity="secondary" outlined />
+            </a>
+            <p-button
+              icon="pi pi-pencil"
+              outlined
+              (click)="updateEmployee(employee)"
+            />
+            <p-button
+              icon="pi pi-trash"
+              severity="danger"
+              outlined
+              (click)="deleteEmployee(employee)"
+            />
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template #emptymessage>
+      <tr>
+        <td colspan="8">
+          <p class="text-center">No employees found :(</p>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-card>

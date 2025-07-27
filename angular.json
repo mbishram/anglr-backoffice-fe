@@ -108,6 +108,9 @@
             "styles": ["src/styles.css"]
           }
         }
+      },
+      "i18n": {
+        "sourceLocale": "id"
       }
     }
   },
